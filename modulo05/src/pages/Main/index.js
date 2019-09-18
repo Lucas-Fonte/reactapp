@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import api from '../../services/api';
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
-import { Container, SubmitButton, Form, List, Box} from './styles';
+import Container from '../../components/Container';
+import { SubmitButton, Form, List } from './styles';
+
 export default class Main extends Component {
   state = {
     newRepo: '',
     repositories: [],
     loading: false,
-    box:'',
   };
 
 componentDidMount(){
@@ -26,6 +28,7 @@ componentDidUpdate(_, prevState){
         localStorage.setItem('respositories', JSON.stringify(repositories));
     }
 }
+
  handleInputChange = e => {
      this.setState({ newRepo: e.target.value});
  };
@@ -50,12 +53,8 @@ componentDidUpdate(_, prevState){
     })
  };
 
- handleBox = e => {
-    this.setState({ box: 500 });
- }
-
  render(){
-    const { newRepo, loading , repositories, box} = this.state;
+    const { newRepo, loading , repositories} = this.state;
 
     return (
         <>
@@ -87,15 +86,12 @@ componentDidUpdate(_, prevState){
                 {repositories.map(repository => (
                     <li key={repository.name}>
                         <span>{repository.name}</span>
-                        <a href="">Detalhes</a>
+                        <Link to={`/repository/${encodeURIComponent(repository.name)}`}>Detalhes</Link>
                     </li>
                 ))}
             </List>
 
         </Container>
-    
-        <Box style={{ width: box}} />
-
         </>
     );
     }
